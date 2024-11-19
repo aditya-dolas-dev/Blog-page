@@ -2,12 +2,13 @@ import PeopleToFollow from "./Components/PeopleToFollow"
 import Navigation from "./Components/Navigation"
 import TrendList from "./Components/TrendList"
 import TopicsList from "./Components/TopicsList"
-import { BlogProvider, useBlogs } from "./Shared/BlogContext"
+import { BlogProvider} from "./Shared/BlogContext"
 import { IoMdAddCircle } from "react-icons/io"
 import { useState } from "react"
 import { Blog } from "./types"
 import Modal from "./Components/Modal"
 import BlogForm from "./Components/BlogForm"
+import ArticleList from "./Components/ArticleList"
 
 const App = () => {
 
@@ -20,7 +21,7 @@ const App = () => {
     setIsModelOpen(true);
   }
 
-  const openModalForEditing=()=>{
+  const openModalForEditing=(blog:Blog)=>{
     setEditingBlog(blog);
     setIsModelOpen(true)
   }
@@ -43,9 +44,14 @@ const App = () => {
 
               {/* Article List  */}
 
+              <ArticleList onEdit={openModalForEditing}/>
+
               {isModalOpen && (
                 <Modal onClose={() => setIsModelOpen(false)}>
-                  <BlogForm/>
+                   <BlogForm
+                    existingBlog={editingBlog}
+                    onClose={() => setIsModelOpen(false)}
+                  />
                 </Modal>
               )}
 
